@@ -1,6 +1,7 @@
 package org.homedev.prototypes.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.homedev.prototypes.service.PersonService;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ public class RootController {
 
 private final PersonService service;
     @GetMapping("/fillDatabase")
+    @SneakyThrows
     public ResponseEntity<Void> fillDatabase (@RequestParam int count) {
         service.fillDatabase(count);
         return new ResponseEntity<>(HttpStatusCode.valueOf(200));
