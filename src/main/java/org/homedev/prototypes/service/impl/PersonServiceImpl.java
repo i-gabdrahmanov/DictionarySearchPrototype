@@ -3,6 +3,7 @@ package org.homedev.prototypes.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.homedev.prototypes.dao.PersonDao;
 import org.homedev.prototypes.dto.PersonInitDto;
+import org.homedev.prototypes.dto.PersonListDto;
 import org.homedev.prototypes.repository.PersonRepository;
 import org.homedev.prototypes.service.PersonService;
 import org.homedev.prototypes.utils.InnGenerator;
@@ -30,6 +31,12 @@ public class PersonServiceImpl implements PersonService  {
 
         }
         dao.saveAll(new ArrayList<>(personInitDtos));
+    }
+
+    @Override
+    public PersonListDto getPersonByInnPrefix(String innPrefix) {
+        return new PersonListDto(personRepository.findAllByInnStartingWith(innPrefix).stream()
+                .map(p -> new PersonInitDto(p.getId(), p.getFio(), p.getInn())).toList());
     }
 
     private void saveAll(Set<PersonInitDto> set) {
