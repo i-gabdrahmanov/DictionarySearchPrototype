@@ -52,7 +52,7 @@ public class PersonDaoImpl implements PersonDao {
         statement.executeBatch();
 
         // Сохраняем изменения
-        conn.commit();
+        //conn.commit(); есть автокоммит
 
         // Закрываем подготовленный запрос и соединение
         statement.close();

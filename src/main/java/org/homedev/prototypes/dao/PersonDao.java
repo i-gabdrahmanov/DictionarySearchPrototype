@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 import java.sql.SQLException;
 import java.util.List;
 
-@Repository
 public interface PersonDao {
     void saveAll(List<PersonInitDto> list) throws SQLException;
 }

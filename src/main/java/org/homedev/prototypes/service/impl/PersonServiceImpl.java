@@ -19,15 +19,15 @@ public class PersonServiceImpl implements PersonService  {
     private final PersonDao dao;
     @Override
     public void fillDatabase(int count) throws SQLException {
-        Long id = personRepository.findLastId().orElse(0L) + 1L;
+        long id = personRepository.findLastId().orElse(0L) + 1L;
         Set<PersonInitDto> personInitDtos = new HashSet<>();
         while (personInitDtos.size() < count) {
             PersonInitDto p = new PersonInitDto();
-            p.setId(id);
+            p.setId(id++);
             p.setFio("B D F");
             p.setInn(InnGenerator.generate16RegionInn());
             personInitDtos.add(p);
-            id++;
+
         }
         dao.saveAll(new ArrayList<>(personInitDtos));
     }
