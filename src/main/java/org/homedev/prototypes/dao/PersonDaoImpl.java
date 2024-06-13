@@ -2,6 +2,7 @@ package org.homedev.prototypes.dao;
 
 import lombok.RequiredArgsConstructor;
 import org.homedev.prototypes.dto.PersonInitDto;
+import org.homedev.prototypes.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -24,9 +25,8 @@ public class PersonDaoImpl implements PersonDao {
     @Value("${spring.datasource.password}")
     private String password;
 
-//    private final String url = config.getUrl();
-//    private final String user = config.getUser();
-//    private final String password = config.getPassword();
+    private final PersonRepository personRepository;
+
 
     @Override
     public void saveAll(List<PersonInitDto> list) throws SQLException {
@@ -41,8 +41,8 @@ public class PersonDaoImpl implements PersonDao {
         Iterator<PersonInitDto> iterator = list.listIterator();
         while (iterator.hasNext()) {
             PersonInitDto p = iterator.next();
-            statement.setLong(1, Long.parseLong(p.getInn()));
-            statement.setString(2, "fio");
+            statement.setLong(1, p.getId());
+            statement.setString(2, p.getFio());
             statement.setString(3, p.getInn());
 
             // Добавляем запрос в пакет

@@ -3,6 +3,7 @@ package org.homedev.prototypes.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.homedev.prototypes.dao.PersonDao;
 import org.homedev.prototypes.dto.PersonInitDto;
+import org.homedev.prototypes.repository.PersonRepository;
 import org.homedev.prototypes.service.PersonService;
 import org.homedev.prototypes.utils.InnGenerator;
 import org.springframework.stereotype.Service;
@@ -10,19 +11,23 @@ import org.springframework.stereotype.Service;
 import java.sql.SQLException;
 import java.util.*;
 
+
 @Service
 @RequiredArgsConstructor
 public class PersonServiceImpl implements PersonService  {
-   // private final PersonRepository personRepository;
+    private final PersonRepository personRepository;
     private final PersonDao dao;
     @Override
     public void fillDatabase(int count) throws SQLException {
+        Long id = personRepository.findLastId().orElse(0L) + 1L;
         Set<PersonInitDto> personInitDtos = new HashSet<>();
         while (personInitDtos.size() < count) {
             PersonInitDto p = new PersonInitDto();
+            p.setId(id);
             p.setFio("B D F");
             p.setInn(InnGenerator.generate16RegionInn());
             personInitDtos.add(p);
+            id++;
         }
         dao.saveAll(new ArrayList<>(personInitDtos));
     }
